@@ -1,0 +1,6 @@
+# General stuff to ignore
+*.o
+grainfuck
+
+# Personal. Add your IDEs' shit if you want too
+*.geany
