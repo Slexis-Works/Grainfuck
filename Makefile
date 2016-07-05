@@ -11,7 +11,7 @@ mandir = $(datarootdir)/man
 grainfuck: grainfuck.o
 	$(GCC) grainfuck.o -o grainfuck -lsfml-graphics -lsfml-window -lsfml-system
 
-grainfuck.o: main.cpp main.hpp errorCodes.hpp
+grainfuck.o: main.cpp main.hpp Buffer.hpp errorCodes.hpp samples.hpp
 	$(GCC) -c main.cpp -o grainfuck.o
 
 debug:
