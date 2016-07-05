@@ -4,7 +4,7 @@
 ## Description
 This program delivers a vanilla [brainfuck](https://en.wikipedia.org/wiki/Brainfuck "Wikipedia page of this language") interpreter enhanced with a ninth command merely painting a pixel on the screen.
 
-## Licence
+## License
 As it's basically useless, it's released under the GPL v3.0 because cutting edge.
 
 ## Help
