@@ -7,7 +7,7 @@ int main (int argc, char **argv) {
 	sf::Sprite graphicalContent;
 	sf::Texture texture;
 	sf::Image buf;
-	bool changedPixel = false;
+	bool needRedraw = false;
 	float verboseSleepTime = 0.1f;
 
 	// Default configuration
@@ -146,7 +146,7 @@ int main (int argc, char **argv) {
 	}
 
     do {
-		changedPixel = false;
+		needRedraw = false;
 		//std::cout << "Reading instruction `" << program.get() << "` at " << program.getPos() << "." << std::endl;
 		if (showSteps) {
 			std::cout << std::endl;
@@ -225,6 +225,7 @@ int main (int argc, char **argv) {
 								datas.getNextTo(3),
 								datas.getNextTo(4)));
 					texture.update(buf.getPixelsPtr());
+					needRedraw = true;
 				} else {
 					verboseSleepTime = 0.01f;
 				}
@@ -239,12 +240,16 @@ int main (int argc, char **argv) {
 			while (window->pollEvent(event)) {
 				if (event.type == sf::Event::Closed)
 					window->close();
+				else if (event.type == sf::Event::GainedFocus)
+					needRedraw = true;
 			}
 
-			// Buffer rendering
-			window->clear();
-			window->draw(graphicalContent);
-			window->display();
+			if (needRedraw) {
+				// Buffer rendering
+				window->clear();
+				window->draw(graphicalContent);
+				window->display();
+			}
 		}
 
 		if (showSteps)
