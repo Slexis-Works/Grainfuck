@@ -9,16 +9,20 @@ int main (int argc, char **argv) {
 	sf::Image buf;
 	bool needRedraw = false;
 	float verboseSleepTime = 0.1f;
+	sf::Clock clock;
+	sf::Time imageAge;
 
 	// Default configuration
 	bool showHelp(false),
-		showSteps(false);
+		showSteps(false),
+		fastRender(true);
 	bool paintEnabled(true);
-	int winX(80),
-		winY(50),
-		zoom(3);
+	int winX(256),
+		winY(256),
+		zoom(2);
 	size_t datasSize(30000);
 	std::string title("Grainfuck Code");
+	std::string sample("");
 	Buffer<char> program;
 	Buffer<sf::Uint8> datas;
 	std::stack<size_t> loopsStack;
@@ -92,10 +96,32 @@ int main (int argc, char **argv) {
 						winY = 0;
 				}
 			}
-		} else if (!strcmp(argv[argn], "--help"))
+		} else if (!strcmp(arg, "--help"))
 			showHelp = true;
-		else if (!strcmp(argv[argn], "--step"))
+		else if (!strcmp(arg, "--step"))
 			showSteps = true;
+		else if (!strcmp(arg, "--sample")) {
+			if (argn < argc - 1) {
+				sample = argv[++argn];
+				if (sample == "list") {
+					std::cout << "The following samples are available:" << std::endl;
+					for (std::map<std::string, GrainfuckSample>::const_iterator it = GRAINFUCK_SAMPLES.begin() ;
+						it != GRAINFUCK_SAMPLES.end() ; it++) {
+						std::cout << "- (";
+						if (it->second.winWidth == 0 && it->second.winHeight == 0)
+							std::cout << "C";
+						else
+							std::cout << "G";
+						std::cout << ") " << it->first << ": " << it->second.info << std::endl;
+					}
+					sample = "";
+				}
+			} else
+				std::cerr << "Please add a sample name. `list` will give you all the availables ones." << std::endl;
+		} else if (!strcmp(arg, "--slow")) {
+			fastRender = false;
+		} else
+			std::cerr << "I don't know what to do with your `" << argv[argn] << "` :'(" << std::endl;
 	}
 
 	if (showHelp) {
@@ -104,6 +130,17 @@ int main (int argc, char **argv) {
 			return ERR_HELP_NF;
 		}
 		return OMG_IT_WORKED;
+	}
+
+	if (!sample.empty()) {
+		if (GRAINFUCK_SAMPLES.count(sample)) {
+			program.init(GRAINFUCK_SAMPLES.at(sample).code.c_str(),
+						GRAINFUCK_SAMPLES.at(sample).code.size());
+			title = GRAINFUCK_SAMPLES.at(sample).title;
+			winX = GRAINFUCK_SAMPLES.at(sample).winWidth;
+			winY = GRAINFUCK_SAMPLES.at(sample).winHeight;
+		} else
+			std::cerr << "Unknown sample `" << sample << "`. Ignoring." << std::endl;
 	}
 
 	if (winX == 0 || winY == 0) {
@@ -142,7 +179,7 @@ int main (int argc, char **argv) {
 		graphicalContent.setScale(zoom, zoom);
 
 		window = new sf::RenderWindow(sf::VideoMode(winX*zoom, winY*zoom), title);
-		window->setVerticalSyncEnabled(false);
+		window->setVerticalSyncEnabled(!fastRender);
 	}
 
     do {
@@ -245,10 +282,14 @@ int main (int argc, char **argv) {
 			}
 
 			if (needRedraw) {
-				// Buffer rendering
-				window->clear();
-				window->draw(graphicalContent);
-				window->display();
+				imageAge += clock.restart();
+				if (!fastRender || imageAge >= sf::seconds(1/30.0f)) {
+					// Buffer rendering
+					window->clear();
+					window->draw(graphicalContent);
+					window->display();
+					imageAge = sf::Time::Zero;
+				}
 			}
 		}
 

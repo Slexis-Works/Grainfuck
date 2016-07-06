@@ -43,5 +43,5 @@ install: grainfuck
 .PHONY : install
 
 uninstall:
-	rm -fI $(exec_prefix)/bin/grainfuck $(mandir)/man1/grainfuck.1 $(mandir)/en/man1/grainfuck.1 $(mandir)/fr/man1/grainfuck.1
+	rm -I $(exec_prefix)/bin/grainfuck $(mandir)/man1/grainfuck.1 $(mandir)/en/man1/grainfuck.1 $(mandir)/fr/man1/grainfuck.1
 .PHONY : uninstall

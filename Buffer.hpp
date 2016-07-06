@@ -5,8 +5,8 @@ public:
 	Buffer(size_t size);
 	~Buffer();
 
-	bool init(bufType* datas, size_t size);
-	bool init(bufType value, size_t size);
+	bool init(const bufType* datas, size_t size);
+	bool init(const bufType value, size_t size);
 
 	size_t getSize();
 
@@ -61,7 +61,7 @@ Buffer<bufType>::~Buffer()
 }
 
 template <class bufType>
-bool Buffer<bufType>::init(bufType* datas, size_t size)
+bool Buffer<bufType>::init(const bufType* datas, size_t size)
 {
 	m_buf = new bufType[size];
 	if (m_buf == nullptr)
@@ -75,7 +75,7 @@ bool Buffer<bufType>::init(bufType* datas, size_t size)
 }
 
 template <class bufType>
-bool Buffer<bufType>::init(bufType value, size_t size)
+bool Buffer<bufType>::init(const bufType value, size_t size)
 {
 	m_buf = new bufType[size];
 	if (m_buf == nullptr)
