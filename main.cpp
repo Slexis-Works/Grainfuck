@@ -283,7 +283,7 @@ int main (int argc, char **argv) {
 
 			if (needRedraw) {
 				imageAge += clock.restart();
-				if (!fastRender || imageAge >= sf::seconds(1/30.0f)) {
+				if (!fastRender || imageAge >= sf::seconds(1/60.0f)) {
 					// Buffer rendering
 					window->clear();
 					window->draw(graphicalContent);
