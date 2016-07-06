@@ -142,6 +142,7 @@ int main (int argc, char **argv) {
 		graphicalContent.setScale(zoom, zoom);
 
 		window = new sf::RenderWindow(sf::VideoMode(winX*zoom, winY*zoom), title);
+		window->setVerticalSyncEnabled(false);
 	}
 
     do {
@@ -217,6 +218,17 @@ int main (int argc, char **argv) {
 					loopsStack.pop();
 				}
 				break;
+			case '/':
+				if (paintEnabled) {
+					buf.setPixel(datas.get(), datas.getNextTo(1),
+						sf::Color(datas.getNextTo(2),
+								datas.getNextTo(3),
+								datas.getNextTo(4)));
+					texture.update(buf.getPixelsPtr());
+				} else {
+					verboseSleepTime = 0.01f;
+				}
+				break;
 			default:
 				verboseSleepTime = 0.01f;
 				// std::cerr << "Unknown instruction `" << program.get() << "`." << std::endl;
@@ -231,20 +243,38 @@ int main (int argc, char **argv) {
 
 			// Buffer rendering
 			window->clear();
-
-			buf.setPixel(3, 3, sf::Color::Green);
-
-			texture.update(buf.getPixelsPtr());
 			window->draw(graphicalContent);
-
 			window->display();
 		}
+
 		if (showSteps)
 			sf::sleep(sf::seconds(verboseSleepTime));
-    } while (program.advance() || (paintEnabled && window->isOpen()));
+    } while (program.advance() && (!paintEnabled || window->isOpen()));
 
 	if (paintEnabled) {
-		delete window;
+		if (window->isOpen())
+			std::cout << std::endl << "Program ended. You can close the window." << std::endl;
+		else {
+			std::cout << std::endl << "Aborted." << std::endl;
+			delete window;
+			paintEnabled = false;
+		}
+	}
+
+	while (paintEnabled) {
+		window->clear();
+		window->draw(graphicalContent);
+		window->display();
+		sf::Event event;
+		while (window->pollEvent(event)) {
+			if (event.type == sf::Event::Closed) {
+				window->close();
+				delete window;
+				paintEnabled = false;
+				break;
+			}
+		}
+		sf::sleep(sf::milliseconds(50.0f));
 	}
 
     return OMG_IT_WORKED;
