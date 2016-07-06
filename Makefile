@@ -39,7 +39,7 @@ install: grainfuck
 	cp grainfuck-man-en.1 $(mandir)/en/man1/grainfuck.1
 	cp grainfuck-man-fr.1 $(mandir)/fr/man1/grainfuck.1
 	@echo ""
-	@echo "Successful installation! Try \`grainfuck --sample HelloWorld\` to test it."
+	@echo "Successful installation! Try \`grainfuck --sample HelloWorld\` and \`man grainfuck\` to test it."
 .PHONY : install
 
 uninstall:

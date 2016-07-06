@@ -183,7 +183,6 @@ int main (int argc, char **argv) {
 	}
 
     do {
-		needRedraw = false;
 		//std::cout << "Reading instruction `" << program.get() << "` at " << program.getPos() << "." << std::endl;
 		if (showSteps) {
 			std::cout << std::endl;
@@ -228,8 +227,9 @@ int main (int argc, char **argv) {
 				break;
 			case ',': {
 				char inputChar;
-				std::cin >> inputChar;
-				datas.set(inputChar);
+				std::cin.get(inputChar);
+				if (!std::cin.eof())
+					datas.set(inputChar);
 				} break;
 			case '[':
 				if (datas.get()) {
@@ -289,6 +289,7 @@ int main (int argc, char **argv) {
 					window->draw(graphicalContent);
 					window->display();
 					imageAge = sf::Time::Zero;
+					needRedraw = false;
 				}
 			}
 		}
@@ -296,6 +297,9 @@ int main (int argc, char **argv) {
 		if (showSteps)
 			sf::sleep(sf::seconds(verboseSleepTime));
     } while (program.advance() && (!paintEnabled || window->isOpen()));
+
+	if (!loopsStack.empty())
+		std::cerr << "Missing `]` token." << std::endl;
 
 	if (paintEnabled) {
 		if (window->isOpen())
