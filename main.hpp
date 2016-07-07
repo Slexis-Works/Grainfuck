@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 
 #include <iostream>
+#include <fstream>
 #include <cstring>
 #include <stack>
 

@@ -88,6 +88,25 @@ int main (int argc, char **argv) {
 						} else
 							std::cerr << "-c requires a string right after." << std::endl;
 						} break;
+					case 'f': {
+						if (nc == argl - 1
+							&& argn < argc - 1) {
+							std::ifstream fileCode(argv[++argn]);
+							if (fileCode) {
+								fileCode.seekg(0, fileCode.end);
+								int length = fileCode.tellg();
+								char *code = new char[length];
+								fileCode.seekg(0, fileCode.beg);
+								fileCode.read(code, length);
+								fileCode.close();
+								program.init(code, length);
+								delete code;
+							} else
+								std::cerr << "File " << argv[argn] << " not found." << std::endl;
+						} else
+							std::cerr << "-f requires a file name right after." << std::endl;
+						}
+						break;
 					case 'v': {
 						showSteps = true;
 						} break;
