@@ -75,10 +75,19 @@ const std::map<std::string, GrainfuckSample> GRAINFUCK_SAMPLES = {
 		}
 	},
 	{
-		"Gradient-reversed",
+		"GradientReversed",
 		{
 			">>>-<<</>>>[<<[-<+>]<[/->+<]/-<+>>>>-]",
 			"Somewhat an unexpected fail. But still cool",
+			"Gradient",
+			256, 256
+		}
+	},
+	{
+		"GradientBicolor",
+		{
+			"->->->-<<</>[<-[/-]>>->>+<<<</>-]",
+			"Vertical gradient between yellow and cyan (with some fails)",
 			"Gradient",
 			256, 256
 		}

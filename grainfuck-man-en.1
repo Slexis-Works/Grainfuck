@@ -1,6 +1,110 @@
 ." Grainfuck manualpage
 ."
-.TH grainfuck 1 "That's all folks!" "2016-07-05" "Grainfuck Interpreter usage"
+.TH grainfuck 1 "That's all folks!" "2016-07-07" "Grainfuck Interpreter usage"
 
 .SH NAME
 grainfuck — The Graphical Brainfuck Interpreter
+
+." Main syntax
+.SH SYNOPSIS
+depressed_guy@home#
+.B suicide
+.br
+suicide: commande not found. Rather try \fBgrainfuck
+.PP
+.B grainfuck \-\-help\fP|\fB\-h
+.PP
+.\" Non-windowed mode
+\fBgrainfuck\fP [\fB\-\-step\fP] [\fB\-b \fIdatas-size\fP] \fB\-nc\fP \fIbrainfuck-code
+.PP
+.\" Graphical mode
+.B grainfuck \fR[\fP\-p
+.I pixels-per-row row-count\fP|\fB\-s \fIpixels-per-row-and-column\fR] [\fB\-z \fIzoom\fR] [\fB\-t \fItitle\fR] \fB\-f \fIgrainfuck-file
+.PP
+.B grainfuck \fP[\fP\-\-slow\fP|\fP\-\-step\fP]\fP \-\-sample \fISampleName\fR|\fIlist
+.PP
+
+.SH DESCRIPTION
+Grainfuck is a program intepreting BrainFuck programs and adding an instruction
+to paint a pixel on the screen.
+.PP
+This man page doesn't intend to teach you mere BrainFuck. You'll find plenty of
+documents online for that. Wikipedia is a good start. The ninth instruction is
+`/'. It paints a pixel with the following attributes:
+.nf
++-------------------+-----------------------+
+|   Memory Offset   | Description           |
++-------------------+-----------------------+
+|  0 (data pointer) | X coordinate          |
+|   1 (next cell)   | Y coordinate          |
+|         2         | Red color component   |
+|         3         | Green color component |
+|         4         | Blue color component  |
++-------------------+-----------------------+
+.fi
+Thereby you can avail of a 256x256 pixels area and a 24 bits color depth.
+
+.SH OPTIONS
+.B Main options
+.PP
+.IP "\fB\-h\fP | \fB\-\-help\fP"
+Displays this manpage and exits the program.
+.IP "\fB\-v\fP | \fB\-\-step"
+Displays the whole program in the console with the numbers contained in the 16 first cells. The current instruction is replaced by an underscore and an asterisk shows which cell is pointed by the data pointer.
+.IP "\fB\-b \fIbytes"
+An integer, between 1 and… what your computer can allocate AND handle in a size_t, defining the size in bytes of the datas for the code.
+.br
+\fBBy default\fP, 30,000 1-byte cells are available.
+.IP "\fB\-\-sample\fI SampleName"
+Runs the sample code \fISampleName\fP if it exists. This function overwrites those to read code and defining window's size and title. That way you can study the program by adding the \fB\-\-step\fP option. Type `list' as sample name to get the codes installed in your version.
+.IP "\fB\-c \fIcode"
+A string with the brainfuck or grainfuck code to read.
+.IP "\fB\-f \fIfile"
+Path of the file containing the brainfuck or grainfuck code to read.
+.PP
+
+.B Options for GrainFuck
+.IP "\fB\-z \fIzoom"
+An integer between 1 and 10 telling how big are the pixels on the screen.
+.br
+\fBBy default\fP, the zoom is 2.
+.IP "\fB\-t \fItitle"
+A text to display in the window.
+.br
+\fBBy default\fP, the title is `Grainfuck Code'.
+.IP "\fB\-\-slow"
+Enables VSYNC and redraws the picture at every new pixel, thus slowing grainfuck codes but can give some effect. Practically useless with \fB\-\-step\fP unless your VSYNC runs with less than 10 FPS.
+
+.IP "\fB\-p \fIwinX winY"
+Resizes the window's content to the sizes given in pixels. Width will be \fIwinX\fP and height \fIwinY\fP. These values must be between 0 and 256 included. If one value is 0, the other one must be 0 too. Reducing the size will disturb programs willing to access missing pixels.
+.br
+\fBBy default\fP, the window has a size of 256x256 pixels.
+.IP "\fB\-s \fIwinXY"
+Resizes the window's content to a square of \fIwinXY\fP pixels per side. The value must be between 0 and 256 included.
+.br
+Shortcut for `\fB-p \fIwinXY winXY\fR'.
+.IP "\fB\-n"
+Doesn't create a window and disables the `/' instruction for running classical BrainFuck codes. Maybe you should install a proper programm for that?
+.br
+Same as `\fB-s \fI0\fR'. And congrats to the genius who discovered that it was also the same as `\fB-p \fI0 0\fR'.
+
+
+.SH EXAMPLES
+Both of these examples without window display `Hello World!' and jump a line.
+.br
+.B grainfuck -nc \fI'++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.'
+.br
+.B grainfuck --sample \fIHelloWorld
+.PP
+The pipeline can be used to input user text directly. Without `-e' and `\\0', the first example's loop wouldn't end.
+.br
+.B echo -ne \fI'Hello World!\\\\n\\\\0'\fR | \fBgrainfuck -nc \fI',[.,]'
+.br
+The end of line character can be obtained at the end of \fBecho\fP.
+.br
+.B echo -e \fI'Hello World!\\\\0'\fR | \fBgrainfuck -nc \fI'+[,.],.'
+.br
+If the end of file is reached, then `,' won't change the cell's value. Thus this trick is possible:
+.br
+.B cat \fIpretty-poem \fR|\fP grainfuck -nc \fI'+[[-],.]'
+.PP

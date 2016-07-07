@@ -1,6 +1,6 @@
 ." Manuel de Grainfuck
 ."
-.TH grainfuck 1 "Findus findus !" "06/07/2016" "Utilisation de l'Interpréteur de GrainFuck"
+.TH grainfuck 1 "Findus findus !" "07/07/2016" "Utilisation de l'Interpréteur de GrainFuck"
 
 .SH NOM
 grainfuck — L'interpréteur de BrainFuck Graphique. Parce qu'il faut avoir un grain pour en faire.
@@ -18,7 +18,7 @@ suicide : commande non trouvée. Essayez plutôt \fBgrainfuck
 \fBgrainfuck\fP [\fB\-\-step\fP] [\fB\-b \fItaille-données\fP] \fB\-nc\fP \fIcode-non-graphique
 .PP
 .\" Mode graphique
-.B grainfuck [\-p
+.B grainfuck \fR[\fP\-p
 .I nb-pixels-par-ligne nb-lignes\fP|\fB\-s \fInb-pixels-ligne-et-colonne\fR] [\fB\-z \fIzoom\fR] [\fB\-t \fItitre\fR] \fB\-f \fIfichier-grainfuck
 .PP
 .B grainfuck \fP[\fP\-\-slow\fP|\fP\-\-step\fP]\fP \-\-sample \fINomExemple\fR|\fIlist
@@ -30,7 +30,7 @@ ajoutant une instruction permettant de tracer un pixel à l'écran.
 .PP
 Cette page du manuel n'est pas là pour vous apprendre le BrainFuck de base. Pour
 cela, cherchez d'autres ressources. Wikipédia est un bon début. La neuvième
-instruction est \'/'. Elle tracera un pixel à l'écran dont l'abcisse est la
+instruction est `/'. Elle tracera un pixel à l'écran dont l'abscisse est la
 valeur de la cellule pointée, l'ordonnée la valeur de la cellule suivante, et
 pour la couleur, les trois composantes Rouge Vert Bleu sont prises dans les
 valeurs des cellules suivantes.
@@ -41,13 +41,13 @@ valeurs des cellules suivantes.
 .IP "\fB\-h\fP | \fB\-\-help\fP"
 Affiche l'aide et ferme le programme.
 .IP "\fB\-v\fP | \fB\-\-step"
-Affiche le programme dans la console avec le contenu numérique des 16 premières cellules. L'instruction en cours de lecture est remplacée par \'_' et une astérisque indique quelle cellule est pointée.
+Affiche le programme dans la console avec le contenu numérique des 16 premières cellules. L'instruction en cours de lecture est remplacée par `_' et une astérisque indique quelle cellule est pointée.
 .IP "\fB\-b \fIoctets"
 Un nombre entier, entre 1 et… ce que votre ordinateur peut allouer ET contenir dans un size_t, indiquant la taille en octets de l'espace disponible pour les données du programme.
 .br
 \fBPar défaut\fP, 30 000 cellules d'un octet sont disponibles.
 .IP "\fB\-\-sample\fI NomExemple"
-Exécute le programme d'exemple \fINomExemple\fP si disponible. Cette option écrase celles permettant de lire un code et de définir la taille et le titre de la fenêtre. Il reste donc possible d'étudier le programme avec \fB\-\-step\fP. Pour connaître quels sont les codes installés dans votre version, mettez \'list' en nom.
+Exécute le programme d'exemple \fINomExemple\fP si disponible. Cette option écrase celles permettant de lire un code et de définir la taille et le titre de la fenêtre. Il reste donc possible d'étudier le programme avec \fB\-\-step\fP. Pour connaître quels sont les codes installés dans votre version, mettez `list' en nom.
 .IP "\fB\-c \fIcode"
 Une chaîne de caractères contenant le code brainfuck ou grainfuck à exécuter.
 .IP "\fB\-f \fIfichier"
@@ -60,11 +60,11 @@ Un nombre entier entre 1 et 10 indiquant la grosseur des pixels sur l'écran.
 .br
 \fBPar défaut\fP, le zoom est de 2.
 .IP "\fB\-t \fItitre"
-Un texte à afficher dans la fenêtre pour le mode graphique.
+Un texte à afficher dans la fenêtre.
 .br
-\fBPar défaut\fP, le titre est \'Grainfuck Code'.
+\fBPar défaut\fP, le titre est `Grainfuck Code'.
 .IP "\fB\-\-slow"
-Force la synchronisation verticale et redessine l'image à chaque nouveau pixel, ce qui ralentit les programmes graphiques mais peut donner certains effets. Pratiquement inutile avec \fB--step\fP sauf si votre VSYNC vous cantonne à moins de 10 FPS.
+Force la synchronisation verticale et redessine l'image à chaque nouveau pixel, ce qui ralentit les programmes graphiques mais peut donner certains effets. Pratiquement inutile avec \fB\-\-step\fP sauf si votre VSYNC vous cantonne à moins de 10 FPS.
 
 .IP "\fB\-p \fIwinX winY"
 Redimensionne le contenu de la fenêtre aux tailles spécifiées en largeur (\fIwinX\fP) et en hauteur (\fIwinY\fP), en pixels. Les valeurs doivent être entre 0 et 256 inclus. Si l'une est à 0, l'autre doit l'être aussi. La réduction de la taille perturbera les programmes voulant accéder aux pixels devenus inexistants.
@@ -73,29 +73,29 @@ Redimensionne le contenu de la fenêtre aux tailles spécifiées en largeur (\fI
 .IP "\fB\-s \fIwinXY"
 Redimensionne le contenu de la fenêtre en un carré de côté \fIwinXY\fP pixels. La valeur doit être entre 0 et 256 inclus.
 .br
-Raccourci pour \'\fB-p \fIwinXY winXY\fR'.
+Raccourci pour `\fB\-p \fIwinXY winXY\fR'.
 .IP "\fB\-n"
 Ne crée pas de fenêtre et désactive l'instruction `/' pour l'exécution de codes BrainFuck de base. Peut-être devriez vous installer un programme spécifique plus complet ?
 .br
-Équivalent à \'\fB-s \fI0\fR'. Et bravo au génie qui a trouvé que c'était aussi équivalent à \'\fB-p \fI0 0\fR'.
+Équivalent à `\fB\-s \fI0\fR'. Et bravo au génie qui a trouvé que c'était aussi équivalent à `\fB\-p \fI0 0\fR'.
 
 
 .SH EXEMPLES
-Ces exemples sans fenêtre affichent tous deux \'Hello World!' puis sautent une ligne.
+Ces exemples sans fenêtre affichent tous deux `Hello World!' puis sautent une ligne.
 .br
-.B grainfuck -nc \fI'++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.'
+.B grainfuck \-nc \fI'++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.'
 .br
-.B grainfuck --sample \fIHelloWorld
+.B grainfuck \-\-sample \fIHelloWorld
 .PP
-Exemples plus français. La pipeline peut servir à entrer directement du texte. Sans \'-e' et \'\\0', la boucle de l'exemple ne se termine pas.
+Exemples plus français. La pipeline peut servir à entrer directement du texte. Sans `\-e' et `\\0', la boucle de l'exemple ne se termine pas.
 .br
-.B echo -ne \fI'Bonjour !\\\\n\\\\0'\fR | \fBgrainfuck -nc \fI',[.,]'
+.B echo \-ne \fI'Bonjour !\\\\n\\\\0'\fR | \fBgrainfuck \-nc \fI',[.,]'
 .br
 La fin de ligne peut être aussi récupérée manuellement à la fin du \fBecho\fP.
 .br
-.B echo -e \fR'Bonjour !\\\\0' | \fBgrainfuck -nc '+[,.],.'
+.B echo \-e \fI'Bonjour !\\\\0'\fR | \fBgrainfuck \-nc \fI'+[,.],.'
 .br
-Si la fin du fichier est atteinte, alors \',' ne modifiera pas la cellule. On peut ainsi faire ceci :
+Si la fin du fichier est atteinte, alors `,' ne modifiera pas la cellule. On peut ainsi faire ceci :
 .br
-.B cat \fIjoli-poème \fR|\fP grainfuck -nc \fR'+[[-],.]'
+.B cat \fIjoli-poème \fR|\fP grainfuck \-nc \fI'+[[-],.]'
 .PP

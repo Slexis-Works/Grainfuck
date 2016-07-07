@@ -317,7 +317,7 @@ int main (int argc, char **argv) {
 			sf::sleep(sf::seconds(verboseSleepTime));
     } while (program.advance() && (!paintEnabled || window->isOpen()));
 
-	if (!loopsStack.empty())
+	if (!loopsStack.empty() && (!paintEnabled || window->isOpen()))
 		std::cerr << "Missing `]` token." << std::endl;
 
 	if (paintEnabled) {
