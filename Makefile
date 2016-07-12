@@ -1,7 +1,7 @@
 # Makefile for the Grainfuck program
 
 SHELL = /bin/sh
-GCC = g++ -std=c++11
+GCC = g++ -std=c++11 -s -O2
 
 prefix = /usr/local
 exec_prefix = $(prefix)
@@ -25,7 +25,7 @@ clean:
 .PHONY : clean
 
 install: grainfuck
-	@echo Checking man directory
+	# Checking man directory
 	@test -d $(mandir) || (echo 'Manual directory not found. Ensure $(mandir) is the folder your local programs install their manpages in or use make mandir="/other/path" install.' && false)
 
 	cp grainfuck $(exec_prefix)/bin/
