@@ -9,12 +9,13 @@ int main (int argc, char **argv) {
 	sf::Image buf;
 	bool needRedraw = false;
 	float verboseSleepTime = 0.1f;
-	sf::Clock clock;
+	sf::Clock runClock, imgClock;
 	sf::Time imageAge;
 
 	// Default configuration
 	bool showHelp(false),
 		showSteps(false),
+		showTime(false),
 		fastRender(true);
 	bool paintEnabled(true);
 	int winX(256),
@@ -110,6 +111,9 @@ int main (int argc, char **argv) {
 					case 'v': {
 						showSteps = true;
 						} break;
+					case 'm': {
+						showTime = true;
+						} break;
 					case 'n':
 						winX = 0;
 						winY = 0;
@@ -200,6 +204,9 @@ int main (int argc, char **argv) {
 		window = new sf::RenderWindow(sf::VideoMode(winX*zoom, winY*zoom), title);
 		window->setVerticalSyncEnabled(!fastRender);
 	}
+
+	runClock.restart();
+	imgClock.restart();
 
     do {
 		//std::cout << "Reading instruction `" << program.get() << "` at " << program.getPos() << "." << std::endl;
@@ -301,7 +308,7 @@ int main (int argc, char **argv) {
 			}
 
 			if (needRedraw) {
-				imageAge += clock.restart();
+				imageAge += imgClock.restart();
 				if (!fastRender || imageAge >= sf::seconds(1/60.0f)) {
 					// Buffer rendering
 					window->clear();
@@ -317,14 +324,19 @@ int main (int argc, char **argv) {
 			sf::sleep(sf::seconds(verboseSleepTime));
     } while (program.advance() && (!paintEnabled || window->isOpen()));
 
+	if (showTime)
+		std::cout << std::endl << "Executed in " << runClock.getElapsedTime().asSeconds() << "s" << std::endl;
+
 	if (!loopsStack.empty() && (!paintEnabled || window->isOpen()))
 		std::cerr << "Missing `]` token." << std::endl;
 
 	if (paintEnabled) {
+		if (!showTime)
+			std::cout << std::endl;
 		if (window->isOpen())
-			std::cout << std::endl << "Program ended. You can close the window." << std::endl;
+			std::cout << "Program ended. You can close the window." << std::endl;
 		else {
-			std::cout << std::endl << "Aborted." << std::endl;
+			std::cout << "Aborted." << std::endl;
 			delete window;
 			paintEnabled = false;
 		}

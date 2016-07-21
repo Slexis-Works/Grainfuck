@@ -1,6 +1,6 @@
 ." Manuel de Grainfuck
 ."
-.TH grainfuck 1 "Findus findus !" "07/07/2016" "Utilisation de l'Interpréteur de GrainFuck"
+.TH grainfuck 1 "Findus findus !" "21/07/2016" "Utilisation de l'Interpréteur de GrainFuck"
 
 .SH NOM
 grainfuck — L'interpréteur de BrainFuck Graphique. Parce qu'il faut avoir un grain pour en faire.
@@ -15,7 +15,7 @@ suicide : commande non trouvée. Essayez plutôt \fBgrainfuck
 .B grainfuck \-\-help\fP|\fB\-h
 .PP
 .\" Mode non-graphique
-\fBgrainfuck\fP [\fB\-\-step\fP] [\fB\-b \fItaille-données\fP] \fB\-nc\fP \fIcode-non-graphique
+\fBgrainfuck\fP [\fB\-\-step\fP] [\fB\-b \fItaille-données\fP] [\fB\-m\fP] \fB\-nc\fP \fIcode-non-graphique
 .PP
 .\" Mode graphique
 .B grainfuck \fR[\fP\-p
@@ -46,6 +46,8 @@ Affiche le programme dans la console avec le contenu numérique des 16 première
 Un nombre entier, entre 1 et… ce que votre ordinateur peut allouer ET contenir dans un size_t, indiquant la taille en octets de l'espace disponible pour les données du programme.
 .br
 \fBPar défaut\fP, 30 000 cellules d'un octet sont disponibles.
+.IP "\fB\-m\fP"
+Affiche le temps, en secondes, pris pour exécuter le code *rainfuck. Insignifiant avec les options qui le ralentissent.
 .IP "\fB\-\-sample\fI NomExemple"
 Exécute le programme d'exemple \fINomExemple\fP si disponible. Cette option écrase celles permettant de lire un code et de définir la taille et le titre de la fenêtre. Il reste donc possible d'étudier le programme avec \fB\-\-step\fP. Pour connaître quels sont les codes installés dans votre version, mettez `list' en nom.
 .IP "\fB\-c \fIcode"
@@ -86,6 +88,10 @@ Ces exemples sans fenêtre affichent tous deux `Hello World!' puis sautent une l
 .B grainfuck \-nc \fI'++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.'
 .br
 .B grainfuck \-\-sample \fIHelloWorld
+.PP
+Pour voir à quel point ce programme est lent, l'option \fB\-m\fP permet d'obtenir le temps d'exécution à la fin. Un programme lourd est alors plus intéressant. Par exemple, le programme d'Erik Bosman affichant une fractale.
+.br
+.B grainfuck -nmf \fIMandelbrot.bf
 .PP
 Exemples plus français. La pipeline peut servir à entrer directement du texte. Sans `\-e' et `\\0', la boucle de l'exemple ne se termine pas.
 .br

@@ -1,6 +1,6 @@
 ." Grainfuck manualpage
 ."
-.TH grainfuck 1 "That's all folks!" "2016-07-07" "Grainfuck Interpreter usage"
+.TH grainfuck 1 "That's all folks!" "2016-07-21" "Grainfuck Interpreter usage"
 
 .SH NAME
 grainfuck — The Graphical Brainfuck Interpreter
@@ -15,7 +15,7 @@ suicide: commande not found. Rather try \fBgrainfuck
 .B grainfuck \-\-help\fP|\fB\-h
 .PP
 .\" Non-windowed mode
-\fBgrainfuck\fP [\fB\-\-step\fP] [\fB\-b \fIdatas-size\fP] \fB\-nc\fP \fIbrainfuck-code
+\fBgrainfuck\fP [\fB\-\-step\fP] [\fB\-b \fIdatas-size\fP] [\fB\-m\fP] \fB\-nc\fP \fIbrainfuck-code
 .PP
 .\" Graphical mode
 .B grainfuck \fR[\fP\-p
@@ -55,6 +55,8 @@ Displays the whole program in the console with the numbers contained in the 16 f
 An integer, between 1 and… what your computer can allocate AND handle in a size_t, defining the size in bytes of the datas for the code.
 .br
 \fBBy default\fP, 30,000 1-byte cells are available.
+.IP "\fB\-m\fP"
+Displays the time, in seconds, taken to run the *rainfuck code. Meaningless with slowing flags.
 .IP "\fB\-\-sample\fI SampleName"
 Runs the sample code \fISampleName\fP if it exists. This function overwrites those to read code and defining window's size and title. That way you can study the program by adding the \fB\-\-step\fP option. Type `list' as sample name to get the codes installed in your version.
 .IP "\fB\-c \fIcode"
@@ -95,6 +97,10 @@ Both of these examples without window display `Hello World!' and jump a line.
 .B grainfuck -nc \fI'++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.'
 .br
 .B grainfuck --sample \fIHelloWorld
+.PP
+To figure out how much this program is slow, the option \fB\-m\fP enables you to get the runtime. A heavy program is therefore more interesting. For example, Erik Bosman's program displaying a fractal.
+.br
+.B grainfuck -nmf \fIMandelbrot.bf
 .PP
 The pipeline can be used to input user text directly. Without `-e' and `\\0', the first example's loop wouldn't end.
 .br
